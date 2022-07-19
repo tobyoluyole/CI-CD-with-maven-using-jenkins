@@ -1,7 +1,8 @@
  #!/usr/bin/env groovy
 
-def gv
 
+@library('My-Global-shared-Libarary')
+def gv
 pipeline {
     agent any
     parameters {
@@ -16,25 +17,21 @@ pipeline {
                 }
             }
         }
-        stage("build") {
+       stage("build Jar") {
             steps {
                 script {
-                    gv.buildApp()
+                     BuildJar()
                 }
             }
         }
-        stage("test") {
-            when {
-                expression {
-                    params.executeTests
-                }
-            }
+        stage("build Image") {
             steps {
                 script {
-                    gv.testApp()
+                    buildImage()
                 }
             }
         }
+
         stage("deploy") {
             steps {
                 script {
